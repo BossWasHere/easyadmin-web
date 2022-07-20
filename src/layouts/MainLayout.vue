@@ -27,6 +27,13 @@
 
         <q-space />
 
+        <q-toggle
+          size="lg"
+          v-model="darkMode"
+          icon="light_mode"
+          checked-icon="dark_mode"
+          color="grey-6"
+        />
         <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />
       </q-toolbar>
     </q-header>
@@ -61,7 +68,7 @@
           </q-item>
           <q-separator class="q-mt-md q-mb-lg" />
           <q-item-label header>Account</q-item-label>
-          <q-item to="/usersettings">
+          <q-item to="/me">
             <q-item-section>
               <q-item-label>
                 <q-icon name="settings" size="sm" />
@@ -143,6 +150,8 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { useGlobalStore } from 'src/stores/global-store'
 import { ref } from 'vue'
 
 const search = ref('')
@@ -157,4 +166,6 @@ function toggleLeftDrawer() {
 function toggleRightDrawer() {
   rightDrawerOpen.value = !rightDrawerOpen.value
 }
+
+const { darkMode } = storeToRefs(useGlobalStore())
 </script>
