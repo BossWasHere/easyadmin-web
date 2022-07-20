@@ -1,80 +1,160 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh lpR fff">
+    <q-header elevated class="bg-primary text-white">
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+        <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <q-toolbar-title>
+          <!-- <q-avatar>
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
+          </q-avatar> -->
+          EasyAdmin
+        </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <!-- <q-space /> -->
+
+        <!-- search bar -->
+        <div class="row col-5">
+          <q-btn dense flat round icon="search" />
+          <q-input
+            v-model="search"
+            debounce="500"
+            placeholder="Search for a player, UUID, or server"
+            prepend-icon="search"
+            class="bg-primary text-white col-grow"
+          />
+        </div>
+
+        <q-space />
+
+        <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
+    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
+      <q-scroll-area class="fit">
+        <q-list padding>
+          <q-item-label header>General</q-item-label>
+          <q-item to="/dashboard">
+            <q-item-section>
+              <q-item-label>
+                <q-icon name="dashboard" size="sm" />
+                My Dashboard
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item to="/moderation">
+            <q-item-section>
+              <q-item-label>
+                <q-icon name="supervisor_account" size="sm" />
+                Moderation Analytics
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item to="/network">
+            <q-item-section>
+              <q-item-label>
+                <q-icon name="analytics" size="sm" />
+                Network Analytics
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-separator class="q-mt-md q-mb-lg" />
+          <q-item-label header>Account</q-item-label>
+          <q-item to="/usersettings">
+            <q-item-section>
+              <q-item-label>
+                <q-icon name="settings" size="sm" />
+                User Settings
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-item-label>
+                <q-icon name="logout" size="sm" />
+                Logout
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-separator class="q-mt-md q-mb-lg" />
+          <q-item-label header>EasyAdmin</q-item-label>
+          <q-item to="/admin">
+            <q-item-section>
+              <q-item-label>
+                <q-icon name="admin_panel_settings" size="sm" />
+                Administrative Settings
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item to="/logs">
+            <q-item-section>
+              <q-item-label>
+                <q-icon name="article" size="sm" />
+                Logs
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-separator class="q-mt-md q-mb-lg" />
+          <q-item to="/info">
+            <q-item-section>
+              <q-item-label>
+                <q-icon name="info" size="sm" />
+                About
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item tag="a" target="_blank" :href="bugReportUrl">
+            <q-item-section>
+              <q-item-label>
+                <q-icon name="bug_report" size="sm" />
+                Report a Bug
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item tag="a" target="_blank" :href="helpUrl">
+            <q-item-section>
+              <q-item-label>
+                <q-icon name="help_outline" size="sm" />
+                Help
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
+    </q-drawer>
 
-        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
-      </q-list>
+    <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
+      <!-- drawer content -->
     </q-drawer>
 
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <q-footer elevated class="bg-grey-8 text-white">
+      <q-toolbar>
+        <q-space />
+        <div>EasyAdmin Web &copy; BackwardsNode 2022</div>
+        <q-space />
+      </q-toolbar>
+    </q-footer>
   </q-layout>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
 
-const essentialLinks = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev',
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev',
-  },
-]
+const search = ref('')
+const bugReportUrl = process.env.URL_BUG_REPORT
+const helpUrl = process.env.URL_HELP_PAGE
 
 const leftDrawerOpen = ref(false)
+const rightDrawerOpen = ref(false)
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
+}
+function toggleRightDrawer() {
+  rightDrawerOpen.value = !rightDrawerOpen.value
 }
 </script>
