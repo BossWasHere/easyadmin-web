@@ -1,10 +1,12 @@
 <template>
-  <div>
-    <apexchart width="500" type="bar" :options="chartOptions" :series="series"></apexchart>
-  </div>
-  <div>
-    <apexchart width="500" type="pie" :options="pieOptions" :series="pieValues"></apexchart>
-  </div>
+  <q-page class="row items-center justify-evenly">
+    <div>
+      <apexchart width="500" type="bar" :options="chartOptions" :series="series"></apexchart>
+    </div>
+    <div>
+      <apexchart width="500" type="pie" :options="pieOptions" :series="pieValues"></apexchart>
+    </div>
+  </q-page>
 </template>
 
 <script setup lang="ts">
