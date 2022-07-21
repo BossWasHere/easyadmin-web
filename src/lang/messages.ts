@@ -1,8 +1,16 @@
 export interface LocaleDict {
   productTitle: string
+  common: {
+    player: string
+    server: string
+  }
   ui: {
     header: {
       searchTip: string
+    }
+    search: {
+      recent: string
+      results: string
     }
     navigation: {
       labelGeneral: string

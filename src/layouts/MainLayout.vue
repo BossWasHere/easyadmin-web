@@ -42,7 +42,7 @@
 
             <template v-slot:option="scope">
               <q-item-label v-if="scope.opt.header" header class="q-pt-sm q-pb-xs">{{
-                scope.opt.header
+                $t(`ui.search.${scope.opt.header}`)
               }}</q-item-label>
               <q-item v-else v-bind="scope.itemProps" :to="'/player/' + scope.opt.uuid">
                 <q-item-section avatar>
@@ -55,7 +55,7 @@
                 </q-item-section>
                 <q-item-section side :class="{ 'default-type': !scope.opt.type }">
                   <q-btn outline dense no-caps text-color="blue-grey" size="0.8em" class="q-px-sm">
-                    {{ scope.opt.type }}
+                    {{ $t(`common.${scope.opt.type}`) }}
                     <q-icon name="subdirectory_arrow_left" size="1.4em" />
                   </q-btn>
                 </q-item-section>
@@ -212,7 +212,7 @@ type SearchOption = {
   recent?: boolean
 }
 type SearchHeader = {
-  header: string
+  header: 'recent' | 'results'
 }
 
 let hasLoaded = false
@@ -257,7 +257,7 @@ function filter(val: string, update: (callbackFn: () => void) => void) {
   if (val === '') {
     update(() => {
       filteredOptions.value =
-        recentOptions.length > 0 ? [{ header: 'Recent' }, ...recentOptions] : []
+        recentOptions.length > 0 ? [{ header: 'recent' }, ...recentOptions] : []
     })
   } else if (hasLoaded) {
     update(() => {
@@ -265,16 +265,16 @@ function filter(val: string, update: (callbackFn: () => void) => void) {
         op.label.toLowerCase().includes(val.toLowerCase())
       )
       const newOpts = newOptions.filter((op) => op.label.toLowerCase().includes(val.toLowerCase()))
-      opts = opts.length > 0 ? [{ header: 'Recent' }, ...opts] : []
+      opts = opts.length > 0 ? [{ header: 'recent' }, ...opts] : []
       if (newOpts.length > 0) {
-        opts = opts.length > 0 ? [...opts, { header: 'Results' }, ...newOpts] : newOpts
+        opts = opts.length > 0 ? [...opts, { header: 'results' }, ...newOpts] : newOpts
       }
       filteredOptions.value = opts
     })
   } else {
     update(() => {
       const opts = recentOptions.filter((op) => op.label.toLowerCase().includes(val.toLowerCase()))
-      filteredOptions.value = opts.length > 0 ? [{ header: 'Recent' }, ...opts] : []
+      filteredOptions.value = opts.length > 0 ? [{ header: 'recent' }, ...opts] : []
     })
   }
 }

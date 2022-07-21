@@ -2,9 +2,17 @@ import type { LocaleDict } from '../messages'
 
 const messages: LocaleDict = {
   productTitle: 'EasyAdmin',
+  common: {
+    player: 'player',
+    server: 'server',
+  },
   ui: {
     header: {
       searchTip: 'Search for a player, UUID, or server',
+    },
+    search: {
+      recent: 'Recent',
+      results: 'Results',
     },
     navigation: {
       labelGeneral: 'General',
