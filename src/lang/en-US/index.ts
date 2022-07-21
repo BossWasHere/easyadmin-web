@@ -32,6 +32,13 @@ const messages: LocaleDict = {
     footer: {
       labelCopyright: 'EasyAdmin Web © BackwardsNode 2022',
     },
+    player: {
+      details: 'Details',
+      history: 'History',
+      aliases: 'Aliases',
+      moderation: 'Moderation',
+      actions: 'Actions',
+    },
   },
   admin: {
     auth: {

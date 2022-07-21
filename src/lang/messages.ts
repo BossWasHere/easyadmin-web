@@ -31,6 +31,13 @@ export interface LocaleDict {
     footer: {
       labelCopyright: string
     }
+    player: {
+      details: string
+      history: string
+      aliases: string
+      moderation: string
+      actions: string
+    }
   }
   admin: {
     auth: {

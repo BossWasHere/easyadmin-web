@@ -19,11 +19,26 @@
 
       <q-separator />
 
-      <q-card-actions>
-        <q-btn flat round icon="event" />
-        <q-btn flat> 7:30PM </q-btn>
-        <q-btn flat color="primary"> Reserve </q-btn>
-      </q-card-actions>
+      <q-tabs
+        v-model="tab"
+        inline-label
+        switch-indicator
+        indicator-color="primary"
+        class="shadow-2"
+      >
+        <q-tab name="details" icon="person" :label="$t('ui.player.details')" />
+        <q-tab name="history" icon="history" :label="$t('ui.player.history')" />
+        <q-tab name="aliases" icon="diversity_3" :label="$t('ui.player.aliases')" />
+        <q-tab name="moderation" icon="gavel" :label="$t('ui.player.moderation')" />
+        <q-tab name="actions" icon="construction" :label="$t('ui.player.actions')" />
+      </q-tabs>
+      <q-tab-panels v-model="tab" animated>
+        <q-tab-panel name="details">Details</q-tab-panel>
+        <q-tab-panel name="history">History</q-tab-panel>
+        <q-tab-panel name="aliases">Aliases</q-tab-panel>
+        <q-tab-panel name="moderation">Moderation</q-tab-panel>
+        <q-tab-panel name="actions">Actions</q-tab-panel>
+      </q-tab-panels>
     </q-card>
   </div>
 </template>
@@ -43,6 +58,8 @@ const props = defineProps({
   },
 })
 const { uuid, name } = toRefs(props)
+
+const tab = ref('details')
 
 const defaultAvatarSrc = 'src/assets/easyadmin_logo_grey.png'
 const imgSrc = ref(defaultAvatarSrc)
