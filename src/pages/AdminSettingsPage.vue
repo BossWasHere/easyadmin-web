@@ -1,5 +1,39 @@
 <template>
-  <q-page class="row items-center justify-evenly"> </q-page>
+  <q-page class="row items-center justify-evenly">
+    <q-select
+      filled
+      v-model="authenticationModeSelected"
+      :options="authenticationOptions"
+      :label="$t('admin.auth.title')"
+    >
+      <q-tooltip
+        >{{ $t('admin.auth.tip') }}
+        <ul>
+          <li>
+            <b>{{ $t('admin.auth.password') }}</b
+            >{{ $t('admin.auth.passwordDescription') }}
+          </li>
+          <li>
+            <b>{{ $t('admin.auth.microsoftSSO') }}</b
+            >{{ $t('admin.auth.microsoftSSODescription') }}
+          </li>
+          <li>
+            <b>{{ $t('admin.auth.temporarySession') }}</b
+            >{{ $t('admin.auth.temporarySessionDescription') }}
+          </li>
+          <li>
+            <b>{{ $t('admin.auth.insecure') }}</b
+            >{{ $t('admin.auth.insecureDescription') }}
+          </li>
+        </ul>
+      </q-tooltip>
+    </q-select></q-page
+  >
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const authenticationModeSelected = ref(null)
+const authenticationOptions = ['Password', 'Microsoft SSO', 'Temporary Session', 'Unsecured']
+</script>

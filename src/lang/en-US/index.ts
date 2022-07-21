@@ -15,6 +15,7 @@ const messages: LocaleDict = {
       pageUserSettings: 'User Settings',
       pageLogout: 'Logout',
       pageAdministrativeSettings: 'Administrative Settings',
+      pageActiveSessions: 'Active Sessions',
       pageLogs: 'Logs',
       pageAbout: 'About',
       pageBugReport: 'Report a Bug',
@@ -22,6 +23,20 @@ const messages: LocaleDict = {
     },
     footer: {
       labelCopyright: 'EasyAdmin Web © BackwardsNode 2022',
+    },
+  },
+  admin: {
+    auth: {
+      title: 'Authentication',
+      tip: 'Controls how EasyAdmin authenticates users online:',
+      password: 'Password',
+      passwordDescription: ' - Log in with traditional email & password',
+      microsoftSSO: 'Microsoft SSO',
+      microsoftSSODescription: ' - Use your Microsoft account to login',
+      temporarySession: 'Temporary Session',
+      temporarySessionDescription: ' - Run a command in-game to get a one-time code to login with',
+      insecure: 'Insecure',
+      insecureDescription: ' - ONLY USE IF THIS SERVICE IS NOT EXPOSED THIS TO THE INTERNET',
     },
   },
 }

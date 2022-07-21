@@ -14,6 +14,7 @@ export interface LocaleDict {
       pageUserSettings: string
       pageLogout: string
       pageAdministrativeSettings: string
+      pageActiveSessions: string
       pageLogs: string
       pageAbout: string
       pageBugReport: string
@@ -21,6 +22,20 @@ export interface LocaleDict {
     }
     footer: {
       labelCopyright: string
+    }
+  }
+  admin: {
+    auth: {
+      title: string
+      tip: string
+      password: string
+      passwordDescription: string
+      microsoftSSO: string
+      microsoftSSODescription: string
+      temporarySession: string
+      temporarySessionDescription: string
+      insecure: string
+      insecureDescription: string
     }
   }
 }
