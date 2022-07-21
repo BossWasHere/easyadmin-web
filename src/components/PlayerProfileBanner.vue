@@ -10,6 +10,30 @@
           <div class="text-h4 q-mt-md q-mb-xs">{{ name }}</div>
           <div class="text-underline">{{ uuid }}</div>
           <q-separator />
+          <q-scroll-area
+            :thumb-style="{
+              borderRadius: '5px',
+              height: '5px',
+              opacity: '0.75',
+            }"
+            style="height: 3em"
+          >
+            <div class="row no-wrap">
+              <q-chip
+                v-for="group in groups"
+                :key="group.name"
+                :color="group.color"
+                :clickable="false"
+                style="width: 6em"
+              >
+                <div class="text-center full-width ellipsis">
+                  {{ group.name }}
+                  <q-tooltip>{{ group.name }}</q-tooltip>
+                </div>
+              </q-chip>
+            </div>
+          </q-scroll-area>
+
           <div class="text-caption text-grey">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
             incididunt ut labore et dolore magna aliqua.
@@ -23,6 +47,8 @@
         v-model="tab"
         inline-label
         switch-indicator
+        outside-arrows
+        mobile-arrows
         indicator-color="primary"
         class="shadow-2"
       >
@@ -45,7 +71,12 @@
 
 <script setup lang="ts">
 import { validateUUID } from 'src/util/data-validation'
-import { ref, toRefs, watch } from 'vue'
+import { Ref, ref, toRefs, watch } from 'vue'
+
+type PlayerGroup = {
+  name: string
+  color: string
+}
 
 const props = defineProps({
   uuid: {
@@ -60,6 +91,13 @@ const props = defineProps({
 const { uuid, name } = toRefs(props)
 
 const tab = ref('details')
+const groups: Ref<PlayerGroup[]> = ref([
+  { name: 'Owner', color: 'red' },
+  { name: 'LongRankName', color: 'green' },
+  { name: 'Default', color: 'grey' },
+  { name: 'VIP', color: 'yellow' },
+  { name: 'Developer', color: 'purple' },
+])
 
 const defaultAvatarSrc = 'src/assets/easyadmin_logo_grey.png'
 const imgSrc = ref(defaultAvatarSrc)
