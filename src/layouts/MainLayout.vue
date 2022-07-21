@@ -8,7 +8,7 @@
           <!-- <q-avatar>
             <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
           </q-avatar> -->
-          EasyAdmin
+          {{ $t('productTitle') }}
         </q-toolbar-title>
 
         <!-- <q-space /> -->
@@ -19,7 +19,7 @@
           <q-input
             v-model="search"
             debounce="500"
-            placeholder="Search for a player, UUID, or server"
+            :placeholder="$t('ui.header.searchTip')"
             prepend-icon="search"
             class="bg-primary text-white col-grow"
           />
@@ -41,12 +41,12 @@
     <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
       <q-scroll-area class="fit">
         <q-list padding>
-          <q-item-label header>General</q-item-label>
+          <q-item-label header>{{ $t('ui.navigation.labelGeneral') }}</q-item-label>
           <q-item to="/dashboard">
             <q-item-section>
               <q-item-label>
                 <q-icon name="dashboard" size="sm" />
-                My Dashboard
+                {{ $t('ui.navigation.pageDashboard') }}
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -54,7 +54,7 @@
             <q-item-section>
               <q-item-label>
                 <q-icon name="supervisor_account" size="sm" />
-                Moderation Analytics
+                {{ $t('ui.navigation.pageModerationAnalytics') }}
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -62,17 +62,17 @@
             <q-item-section>
               <q-item-label>
                 <q-icon name="analytics" size="sm" />
-                Network Analytics
+                {{ $t('ui.navigation.pageNetworkAnalytics') }}
               </q-item-label>
             </q-item-section>
           </q-item>
           <q-separator class="q-mt-md q-mb-lg" />
-          <q-item-label header>Account</q-item-label>
+          <q-item-label header>{{ $t('ui.navigation.labelAccount') }}</q-item-label>
           <q-item to="/me">
             <q-item-section>
               <q-item-label>
                 <q-icon name="settings" size="sm" />
-                User Settings
+                {{ $t('ui.navigation.pageUserSettings') }}
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -80,17 +80,17 @@
             <q-item-section>
               <q-item-label>
                 <q-icon name="logout" size="sm" />
-                Logout
+                {{ $t('ui.navigation.pageLogout') }}
               </q-item-label>
             </q-item-section>
           </q-item>
           <q-separator class="q-mt-md q-mb-lg" />
-          <q-item-label header>EasyAdmin</q-item-label>
+          <q-item-label header>{{ $t('productTitle') }}</q-item-label>
           <q-item to="/admin">
             <q-item-section>
               <q-item-label>
                 <q-icon name="admin_panel_settings" size="sm" />
-                Administrative Settings
+                {{ $t('ui.navigation.pageAdministrativeSettings') }}
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -98,7 +98,7 @@
             <q-item-section>
               <q-item-label>
                 <q-icon name="article" size="sm" />
-                Logs
+                {{ $t('ui.navigation.pageLogs') }}
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -107,7 +107,7 @@
             <q-item-section>
               <q-item-label>
                 <q-icon name="info" size="sm" />
-                About
+                {{ $t('ui.navigation.pageAbout') }}
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -115,7 +115,7 @@
             <q-item-section>
               <q-item-label>
                 <q-icon name="bug_report" size="sm" />
-                Report a Bug
+                {{ $t('ui.navigation.pageBugReport') }}
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -123,7 +123,7 @@
             <q-item-section>
               <q-item-label>
                 <q-icon name="help_outline" size="sm" />
-                Help
+                {{ $t('ui.navigation.pageSupport') }}
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -142,7 +142,7 @@
     <q-footer elevated class="bg-grey-8 text-white">
       <q-toolbar>
         <q-space />
-        <div>EasyAdmin Web &copy; BackwardsNode 2022</div>
+        <div>{{ $t('ui.footer.labelCopyright') }}</div>
         <q-space />
       </q-toolbar>
     </q-footer>
