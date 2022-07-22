@@ -99,6 +99,11 @@
           <div class="row">
             <q-list class="col q-mr-lg">
               <QItemDetail
+                icon="calendar_today"
+                :label="$t('ui.player.firstJoined')"
+                caption="2022/07/21 22:29:56"
+              />
+              <QItemDetail
                 icon="calendar_month"
                 :label="$t('ui.player.lastJoined')"
                 caption="2022/07/22 00:30:00"
@@ -113,11 +118,7 @@
             </q-list>
             <q-separator vertical />
             <q-list class="col q-ml-lg">
-              <QItemDetail
-                icon="device_hub"
-                :label="$t('ui.player.lastIPAddress')"
-                caption="127.0.0.1"
-              />
+              <QItemDetail icon="lan" :label="$t('ui.player.lastIPAddress')" caption="127.0.0.1" />
               <QItemDetail
                 icon="mood_bad"
                 :label="$t('ui.player.lastPunishment')"
@@ -125,6 +126,7 @@
               />
               <QItemDetail icon="no_accounts" :label="$t('ui.player.bans')" caption="0" />
               <QItemDetail icon="volume_off" :label="$t('ui.player.mutes')" caption="0" />
+              <QItemDetail icon="call_missed_outgoing" :label="$t('ui.player.kicks')" caption="0" />
             </q-list>
           </div>
         </q-tab-panel>

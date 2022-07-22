@@ -40,6 +40,7 @@ export interface LocaleDict {
       actions: string
       currentSession: string
       currentServer: string
+      firstJoined: string
       lastJoined: string
       lastDisconnected: string
       timesJoined: string
@@ -48,6 +49,7 @@ export interface LocaleDict {
       lastIPAddress: string
       bans: string
       mutes: string
+      kicks: string
     }
   }
   admin: {

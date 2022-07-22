@@ -41,6 +41,7 @@ const messages: LocaleDict = {
       actions: 'Actions',
       currentSession: 'Current Session',
       currentServer: 'Current Server',
+      firstJoined: 'First Joined',
       lastJoined: 'Last Joined',
       lastDisconnected: 'Last Disconnected',
       timesJoined: 'Times Joined',
@@ -49,6 +50,7 @@ const messages: LocaleDict = {
       lastPunishment: 'Last Punishment',
       bans: 'Bans',
       mutes: 'Mutes',
+      kicks: 'Kicks',
     },
   },
   admin: {
