@@ -37,6 +37,9 @@ export interface LocaleDict {
       aliases: string
       moderation: string
       actions: string
+      lastJoined: string
+      playTime: string
+      currentServer: string
     }
   }
   admin: {

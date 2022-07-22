@@ -38,6 +38,9 @@ const messages: LocaleDict = {
       aliases: 'Aliases',
       moderation: 'Moderation',
       actions: 'Actions',
+      lastJoined: 'Last Joined',
+      playTime: 'Play Time',
+      currentServer: 'Current Server',
     },
   },
   admin: {

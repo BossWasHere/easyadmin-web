@@ -6,38 +6,77 @@
           <q-img class="rounded-borders" :src="imgSrc" />
         </q-card-section>
 
-        <q-card-section class="q-pt-xs">
-          <div class="text-h4 q-mt-md q-mb-xs">{{ name }}</div>
-          <div class="text-underline">{{ uuid }}</div>
-          <q-separator />
-          <q-scroll-area
-            :thumb-style="{
-              borderRadius: '5px',
-              height: '5px',
-              opacity: '0.75',
-            }"
-            style="height: 3em"
-          >
-            <div class="row no-wrap">
-              <q-chip
-                v-for="group in groups"
-                :key="group.name"
-                :color="group.color"
-                :clickable="false"
-                style="width: 6em"
-              >
-                <div class="text-center full-width ellipsis">
-                  {{ group.name }}
-                  <q-tooltip>{{ group.name }}</q-tooltip>
-                </div>
-              </q-chip>
+        <q-card-section class="q-pt-xs full-width">
+          <div class="row items-center">
+            <div class="text-h4 q-mt-md q-mb-xs">{{ name }}</div>
+            <q-space />
+            <div class="text-bold" :class="online ? 'text-green' : 'text-red'">
+              {{ online ? 'ONLINE' : 'OFFLINE' }}
             </div>
-          </q-scroll-area>
-
-          <div class="text-caption text-grey">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua.
           </div>
+          <div>{{ uuid }}</div>
+          <q-separator />
+          <div class="q-my-xs">
+            <q-scroll-area
+              :thumb-style="{
+                borderRadius: '5px',
+                height: '5px',
+                opacity: '0.75',
+              }"
+              style="height: 3em"
+            >
+              <div class="row no-wrap">
+                <q-chip
+                  v-for="group in groups"
+                  :key="group.name"
+                  :color="group.color"
+                  :clickable="false"
+                  style="width: 6em"
+                >
+                  <div class="text-center full-width ellipsis">
+                    {{ group.name }}
+                    <q-tooltip>{{ group.name }}</q-tooltip>
+                  </div>
+                </q-chip>
+              </div>
+            </q-scroll-area>
+          </div>
+
+          <q-list dense>
+            <q-item>
+              <q-item-section avatar>
+                <q-icon name="calendar_month" size="sm" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ $t('ui.player.lastJoined') }}</q-item-label>
+              </q-item-section>
+              <q-item-section side>
+                <q-item-label caption>2022/07/22 00:30:00</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section avatar>
+                <q-icon name="timer" size="sm" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ $t('ui.player.playTime') }}</q-item-label>
+              </q-item-section>
+              <q-item-section side>
+                <q-item-label caption>4h32m</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section avatar>
+                <q-icon name="map" size="sm" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ $t('ui.player.currentServer') }}</q-item-label>
+              </q-item-section>
+              <q-item-section side>
+                <q-item-label caption>LOBBY-12</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
         </q-card-section>
       </q-card-section>
 
@@ -98,6 +137,7 @@ const groups: Ref<PlayerGroup[]> = ref([
   { name: 'VIP', color: 'yellow' },
   { name: 'Developer', color: 'purple' },
 ])
+const online = ref(true)
 
 const defaultAvatarSrc = 'src/assets/easyadmin_logo_grey.png'
 const imgSrc = ref(defaultAvatarSrc)
