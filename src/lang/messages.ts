@@ -3,6 +3,7 @@ export interface LocaleDict {
   common: {
     player: string
     server: string
+    never: string
   }
   ui: {
     header: {
@@ -37,9 +38,16 @@ export interface LocaleDict {
       aliases: string
       moderation: string
       actions: string
-      lastJoined: string
-      playTime: string
+      currentSession: string
       currentServer: string
+      lastJoined: string
+      lastDisconnected: string
+      timesJoined: string
+      playTime: string
+      lastPunishment: string
+      lastIPAddress: string
+      bans: string
+      mutes: string
     }
   }
   admin: {

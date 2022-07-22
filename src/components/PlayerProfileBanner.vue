@@ -1,20 +1,48 @@
 <template>
-  <div>
-    <q-card class="my-card" flat bordered>
+  <div class="row full-width">
+    <q-space class="col-3" />
+    <q-card class="my-card col" flat bordered>
       <q-card-section horizontal>
-        <q-card-section class="col-5 flex flex-center">
-          <q-img class="rounded-borders" :src="imgSrc" />
+        <q-card-section class="col-4 flex flex-center">
+          <q-img class="rounded-borders" :src="imgSrc" height="16em" fit="contain" />
         </q-card-section>
 
-        <q-card-section class="q-pt-xs full-width">
+        <q-card-section class="col q-pt-xs">
           <div class="row items-center">
-            <div class="text-h4 q-mt-md q-mb-xs">{{ name }}</div>
+            <div class="text-h4 q-my-md q-mb-xs">{{ name }}</div>
+            <q-btn
+              icon="content_copy"
+              padding="xs"
+              size="xs"
+              class="q-my-md q-mb-xs q-ml-sm"
+              color="transparent"
+              text-color="fg"
+              unelevated
+              @click="copyNameToClipboard"
+            >
+              <q-tooltip class="bg">Copy to clipboard</q-tooltip>
+            </q-btn>
             <q-space />
             <div class="text-bold" :class="online ? 'text-green' : 'text-red'">
               {{ online ? 'ONLINE' : 'OFFLINE' }}
             </div>
           </div>
-          <div>{{ uuid }}</div>
+          <div class="row">
+            {{ uuid
+            }}<q-btn
+              icon="content_copy"
+              padding="xs"
+              size="xs"
+              class="q-ml-xs"
+              color="transparent"
+              text-color="fg"
+              unelevated
+              @click="copyUUIDToClipboard"
+            >
+              <q-tooltip class="bg">Copy to clipboard</q-tooltip>
+            </q-btn>
+          </div>
+
           <q-separator />
           <div class="q-my-xs">
             <q-scroll-area
@@ -43,39 +71,8 @@
           </div>
 
           <q-list dense>
-            <q-item>
-              <q-item-section avatar>
-                <q-icon name="calendar_month" size="sm" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>{{ $t('ui.player.lastJoined') }}</q-item-label>
-              </q-item-section>
-              <q-item-section side>
-                <q-item-label caption>2022/07/22 00:30:00</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item>
-              <q-item-section avatar>
-                <q-icon name="timer" size="sm" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>{{ $t('ui.player.playTime') }}</q-item-label>
-              </q-item-section>
-              <q-item-section side>
-                <q-item-label caption>4h32m</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item>
-              <q-item-section avatar>
-                <q-icon name="map" size="sm" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>{{ $t('ui.player.currentServer') }}</q-item-label>
-              </q-item-section>
-              <q-item-section side>
-                <q-item-label caption>LOBBY-12</q-item-label>
-              </q-item-section>
-            </q-item>
+            <QItemDetail icon="more_time" :label="$t('ui.player.currentSession')" caption="4h32m" />
+            <QItemDetail icon="map" :label="$t('ui.player.currentServer')" caption="LOBBY-12" />
           </q-list>
         </q-card-section>
       </q-card-section>
@@ -98,19 +95,54 @@
         <q-tab name="actions" icon="construction" :label="$t('ui.player.actions')" />
       </q-tabs>
       <q-tab-panels v-model="tab" animated>
-        <q-tab-panel name="details">Details</q-tab-panel>
+        <q-tab-panel name="details">
+          <div class="row">
+            <q-list class="col q-mr-lg">
+              <QItemDetail
+                icon="calendar_month"
+                :label="$t('ui.player.lastJoined')"
+                caption="2022/07/22 00:30:00"
+              />
+              <QItemDetail
+                icon="logout"
+                :label="$t('ui.player.lastDisconnected')"
+                caption="2022/07/21 22:30:00"
+              />
+              <QItemDetail icon="bar_chart" :label="$t('ui.player.timesJoined')" caption="2" />
+              <QItemDetail icon="timer" :label="$t('ui.player.playTime')" caption="4h32m" />
+            </q-list>
+            <q-separator vertical />
+            <q-list class="col q-ml-lg">
+              <QItemDetail
+                icon="device_hub"
+                :label="$t('ui.player.lastIPAddress')"
+                caption="127.0.0.1"
+              />
+              <QItemDetail
+                icon="mood_bad"
+                :label="$t('ui.player.lastPunishment')"
+                :caption="$t('common.never')"
+              />
+              <QItemDetail icon="no_accounts" :label="$t('ui.player.bans')" caption="0" />
+              <QItemDetail icon="volume_off" :label="$t('ui.player.mutes')" caption="0" />
+            </q-list>
+          </div>
+        </q-tab-panel>
         <q-tab-panel name="history">History</q-tab-panel>
         <q-tab-panel name="aliases">Aliases</q-tab-panel>
         <q-tab-panel name="moderation">Moderation</q-tab-panel>
         <q-tab-panel name="actions">Actions</q-tab-panel>
       </q-tab-panels>
     </q-card>
+    <q-space class="col-3" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { validateUUID } from 'src/util/data-validation'
 import { Ref, ref, toRefs, watch } from 'vue'
+
+import QItemDetail from 'src/components/QItemDetail.vue'
 
 type PlayerGroup = {
   name: string
@@ -151,4 +183,12 @@ function updateUUID(newValue: string) {
 updateUUID(uuid.value)
 
 watch(uuid, updateUUID)
+
+function copyNameToClipboard() {
+  navigator.clipboard.writeText(name.value)
+}
+
+function copyUUIDToClipboard() {
+  navigator.clipboard.writeText(uuid.value)
+}
 </script>

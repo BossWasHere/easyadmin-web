@@ -5,6 +5,7 @@ const messages: LocaleDict = {
   common: {
     player: 'player',
     server: 'server',
+    never: 'never',
   },
   ui: {
     header: {
@@ -38,9 +39,16 @@ const messages: LocaleDict = {
       aliases: 'Aliases',
       moderation: 'Moderation',
       actions: 'Actions',
-      lastJoined: 'Last Joined',
-      playTime: 'Play Time',
+      currentSession: 'Current Session',
       currentServer: 'Current Server',
+      lastJoined: 'Last Joined',
+      lastDisconnected: 'Last Disconnected',
+      timesJoined: 'Times Joined',
+      playTime: 'Play Time',
+      lastIPAddress: 'Last IP',
+      lastPunishment: 'Last Punishment',
+      bans: 'Bans',
+      mutes: 'Mutes',
     },
   },
   admin: {
