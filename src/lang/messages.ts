@@ -10,10 +10,12 @@ export interface LocaleDict {
       searchTip: string
     }
     login: {
+      switchAccount: string
       msOauth2: string
       password: string
       oneTimePassword: string
       insecure: string
+      existingAccountsField: string
       usernameField: string
       passwordField: string
       oneTimePasswordField: string
@@ -35,13 +37,11 @@ export interface LocaleDict {
       installationHelp: string
     }
     navigation: {
-      labelGeneral: string
-      labelAccount: string
-
       pageDashboard: string
       pageModerationAnalytics: string
       pageNetworkAnalytics: string
       pageUserSettings: string
+      pageSwitchAccount: string
       pageLogout: string
       pageAdministrativeSettings: string
       pageActiveSessions: string

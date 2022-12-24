@@ -22,7 +22,7 @@
         <div class="col q-gutter-y-md">
           <q-select
             :model-value="existing_accounts"
-            :label="$t('ui.login.existingAccounts')"
+            :label="$t('ui.login.existingAccountsField')"
             placeholder="server[:port]"
             :rules="requiredField"
           />
