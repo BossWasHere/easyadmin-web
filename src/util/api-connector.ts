@@ -123,10 +123,13 @@ export namespace EasyAdminAPI {
   ): Promise<APIEngine | APIError> {
     const engine = new APIEngine(serverUrl)
     try {
+      console.debug(`Preparing to log in to ${serverUrl}`)
       await engine.handleLogin(authWrapper, state, remember)
+      console.debug(`Logged in to ${serverUrl}`)
       useSessionStore().applyEngine(engine)
       return engine
     } catch (err) {
+      console.error(`Failed to log in to ${serverUrl}`, err)
       return err as APIError
     }
   }
@@ -346,7 +349,7 @@ export namespace EasyAdminAPI {
 
     async post<T>(path: string, body?: object): Promise<T | APIError> {
       const url = `${this.baseUrl}${path}`
-      if (!this.getAccessToken() || !this.isAuthenticating) {
+      if (!this.getAccessToken() && !this.isAuthenticating) {
         return {
           error: 'No access token provided',
           errorStatus: 'Unauthorized',
