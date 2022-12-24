@@ -80,7 +80,6 @@
     <q-drawer show-if-above v-model="leftDrawerOpen" :mini="leftDrawerMini" side="left" bordered>
       <q-scroll-area class="fit">
         <q-list v-if="isLoggedIn" padding>
-          <q-item-label header>{{ $t('ui.navigation.labelGeneral') }}</q-item-label>
           <q-item to="/dashboard">
             <q-item-section avatar>
               <q-icon name="dashboard" size="sm" />
@@ -100,12 +99,17 @@
             <q-item-section>{{ $t('ui.navigation.pageNetworkAnalytics') }}</q-item-section>
           </q-item>
           <q-separator class="q-mt-md q-mb-lg" />
-          <q-item-label header>{{ $t('ui.navigation.labelAccount') }}</q-item-label>
           <q-item to="/me">
             <q-item-section avatar>
               <q-icon name="settings" size="sm" />
             </q-item-section>
             <q-item-section>{{ $t('ui.navigation.pageUserSettings') }}</q-item-section>
+          </q-item>
+          <q-item to="/login">
+            <q-item-section avatar>
+              <q-icon name="switch_account" size="sm" />
+            </q-item-section>
+            <q-item-section>{{ $t('ui.navigation.pageSwitchAccount') }}</q-item-section>
           </q-item>
           <q-item>
             <q-item-section avatar>
@@ -114,7 +118,6 @@
             <q-item-section>{{ $t('ui.navigation.pageLogout') }}</q-item-section>
           </q-item>
           <q-separator class="q-mt-md q-mb-lg" />
-          <q-item-label header>{{ $t('productTitle') }}</q-item-label>
           <q-item to="/admin">
             <q-item-section avatar>
               <q-icon name="admin_panel_settings" size="sm" />
@@ -181,8 +184,7 @@ const leftDrawerOpen = ref(false)
 const leftDrawerMini = ref(false)
 const rightDrawerOpen = ref(false)
 function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-  //leftDrawerMini.value = !leftDrawerMini.value
+  leftDrawerMini.value = !leftDrawerMini.value
 }
 function toggleRightDrawer() {
   rightDrawerOpen.value = !rightDrawerOpen.value
