@@ -319,7 +319,7 @@ export namespace EasyAdminAPI {
     }
 
     async get<T>(path: string): Promise<T | APIError> {
-      const url = `${this.baseUrl}${path}`
+      const url = new URL(path, this.baseUrl).toString()
       if (!this.getAccessToken()) {
         return {
           error: 'No access token provided',
@@ -348,7 +348,7 @@ export namespace EasyAdminAPI {
     }
 
     async post<T>(path: string, body?: object): Promise<T | APIError> {
-      const url = `${this.baseUrl}${path}`
+      const url = new URL(path, this.baseUrl).toString()
       if (!this.getAccessToken() && !this.isAuthenticating) {
         return {
           error: 'No access token provided',
