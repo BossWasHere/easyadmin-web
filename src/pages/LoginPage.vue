@@ -105,8 +105,8 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useQuasar } from 'quasar'
-import { EasyAdminAPI } from 'src/util/api-connector'
-import { EasyAdminAuth } from 'src/util/auth-engine'
+import { EasyAdminAPI } from 'src/api/api-connector'
+import { EasyAdminAuth } from 'src/api/auth-engine'
 
 const tab = ref('switch')
 const { t } = useI18n()

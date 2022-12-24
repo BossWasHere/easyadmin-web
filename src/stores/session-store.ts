@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { EasyAdminAPI } from 'src/util/api-connector'
+import { EasyAdminAPI } from 'src/api/api-connector'
 import { useAccountStore } from './account-store'
 
 export const useSessionStore = defineStore('session', {

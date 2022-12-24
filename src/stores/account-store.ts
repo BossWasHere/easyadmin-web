@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useSessionStore } from './session-store'
-import { EasyAdminAuth } from 'src/util/auth-engine'
+import { EasyAdminAuth } from 'src/api/auth-engine'
 
 export const useAccountStore = defineStore('account', {
   state: () => ({

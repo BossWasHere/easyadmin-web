@@ -1,6 +1,6 @@
 //import bcrypt from 'bcrypt'
 import { EasyAdminAPI } from './api-connector'
-import { hashPassword } from './crypto-util'
+import { hashPassword } from '../util/crypto-util'
 
 export namespace EasyAdminAuth {
   export type Account = {

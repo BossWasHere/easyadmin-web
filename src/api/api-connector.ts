@@ -1,7 +1,7 @@
 import { EasyAdminAuth } from './auth-engine'
 import { useAccountStore } from 'src/stores/account-store'
 import { useSessionStore } from 'src/stores/session-store'
-import { hashPassword } from './crypto-util'
+import { hashPassword } from '../util/crypto-util'
 
 export namespace EasyAdminAPI {
   export type APIStatus = {
