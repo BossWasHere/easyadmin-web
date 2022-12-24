@@ -7,6 +7,7 @@ export default boot(({ app }) => {
     locale: 'en-US',
     fallbackLocale: 'en-US',
     messages: messages as never,
+    legacy: false,
   })
 
   app.use(i18n)

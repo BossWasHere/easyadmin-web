@@ -17,10 +17,11 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "apexcharts": "^3.35.3",
-    "axios": "^0.21.1",
     "dotenv": "^16.0.1",
     "pinia": "^2.0.11",
+    "pinia-plugin-persistedstate": "^3.0.1",
     "quasar": "^2.6.0",
+    "scrypt-js": "^3.0.1",
     "vue": "^3.0.0",
     "vue-i18n": "^9.1.10",
     "vue-router": "^4.0.0",
@@ -28,7 +29,7 @@
   },
   "devDependencies": {
     "@quasar/app-vite": "^1.0.0",
-    "@types/node": "^12.20.21",
+    "@types/node": "^18.11.17",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
     "autoprefixer": "^10.4.2",

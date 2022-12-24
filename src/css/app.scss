@@ -1,1 +1,36 @@
 // app global css in SCSS form
+
+.border-all {
+  border: 2px solid;
+}
+
+.border-top {
+  border-top: 2px solid;
+}
+
+.border-right {
+  border-right: 2px solid;
+}
+
+.border-bottom {
+  border-bottom: 2px solid;
+}
+
+.border-left {
+  border-left: 2px solid;
+}
+
+.border-primary {
+  border-color: $primary;
+}
+
+.info-tab-root {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+
+  > .info-tab {
+    @extend .border-all;
+    @extend .border-primary;
+  }
+}

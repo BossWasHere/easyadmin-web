@@ -9,9 +9,30 @@ export interface LocaleDict {
     header: {
       searchTip: string
     }
+    login: {
+      msOauth2: string
+      password: string
+      oneTimePassword: string
+      insecure: string
+      usernameField: string
+      passwordField: string
+      oneTimePasswordField: string
+      remoteAddressField: string
+      withMicrosoft: string
+      withPassword: string
+      withOneTimePassword: string
+      withInsecure: string
+    }
+    generic: {
+      fieldRequired: string
+    }
     search: {
       recent: string
       results: string
+    }
+    navgoto: {
+      dashboard: string
+      installationHelp: string
     }
     navigation: {
       labelGeneral: string
@@ -24,6 +45,7 @@ export interface LocaleDict {
       pageLogout: string
       pageAdministrativeSettings: string
       pageActiveSessions: string
+      pageLogin: string
       pageLogs: string
       pageAbout: string
       pageBugReport: string
@@ -65,5 +87,6 @@ export interface LocaleDict {
       insecure: string
       insecureDescription: string
     }
+    saveChanges: string
   }
 }

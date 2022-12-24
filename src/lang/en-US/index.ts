@@ -11,9 +11,30 @@ const messages: LocaleDict = {
     header: {
       searchTip: 'Search for a player, UUID, or server',
     },
+    login: {
+      msOauth2: 'Microsoft OAuth2',
+      password: 'Password',
+      oneTimePassword: 'One-Time Code',
+      insecure: 'Insecure',
+      usernameField: 'Username',
+      passwordField: 'Password',
+      oneTimePasswordField: 'One-Time Code',
+      remoteAddressField: 'Remote Server Address',
+      withMicrosoft: 'Connect with Microsoft',
+      withPassword: 'Connect with Password',
+      withOneTimePassword: 'Connect with OTC',
+      withInsecure: 'Connect',
+    },
+    generic: {
+      fieldRequired: 'Field is required',
+    },
     search: {
       recent: 'Recent',
       results: 'Results',
+    },
+    navgoto: {
+      dashboard: 'Go to dashboard',
+      installationHelp: 'Installation how-to',
     },
     navigation: {
       labelGeneral: 'General',
@@ -25,6 +46,7 @@ const messages: LocaleDict = {
       pageLogout: 'Logout',
       pageAdministrativeSettings: 'Administrative Settings',
       pageActiveSessions: 'Active Sessions',
+      pageLogin: 'Login',
       pageLogs: 'Logs',
       pageAbout: 'About',
       pageBugReport: 'Report a Bug',
@@ -66,6 +88,7 @@ const messages: LocaleDict = {
       insecure: 'Insecure',
       insecureDescription: ' - ONLY USE IF THIS SERVICE IS NOT EXPOSED THIS TO THE INTERNET',
     },
+    saveChanges: 'Save Changes',
   },
 }
 

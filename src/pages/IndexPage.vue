@@ -1,42 +1,26 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+  <q-page padding class="column items-start content-center justify-center">
+    <p class="text-h2">EasyAdmin Web</p>
+    <p class="text-h4">Remote server moderation - anywhere - any time</p>
+
+    <div class="q-gutter-sm">
+      <q-btn
+        v-if="isLoggedIn"
+        class="bg-primary"
+        :label="$t('ui.navgoto.dashboard')"
+        to="/dashboard"
+      />
+
+      <q-btn v-else class="bg-primary" :label="$t('ui.navigation.pageLogin')" to="/login" />
+
+      <q-btn class="bg-secondary" :label="$t('ui.navgoto.installationHelp')" />
+    </div>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { Todo, Meta } from 'components/models'
-import ExampleComponent from 'components/ExampleComponent.vue'
-import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useAccountStore } from 'src/stores/account-store'
 
-const todos = ref<Todo[]>([
-  {
-    id: 1,
-    content: 'ct1',
-  },
-  {
-    id: 2,
-    content: 'ct2',
-  },
-  {
-    id: 3,
-    content: 'ct3',
-  },
-  {
-    id: 4,
-    content: 'ct4',
-  },
-  {
-    id: 5,
-    content: 'ct5',
-  },
-])
-const meta = ref<Meta>({
-  totalCount: 1200,
-})
+const { isLoggedIn } = storeToRefs(useAccountStore())
 </script>

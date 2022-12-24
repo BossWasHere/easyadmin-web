@@ -8,7 +8,7 @@
           {{ $t('productTitle') }}
         </q-toolbar-title>
 
-        <div class="row col-5">
+        <div class="row col-5" v-if="isLoggedIn">
           <q-select
             use-input
             filled
@@ -77,16 +77,9 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      show-if-above
-      v-model="leftDrawerOpen"
-      :mini="leftDrawerMini"
-      mini-to-overlay
-      side="left"
-      bordered
-    >
+    <q-drawer show-if-above v-model="leftDrawerOpen" :mini="leftDrawerMini" side="left" bordered>
       <q-scroll-area class="fit">
-        <q-list padding>
+        <q-list v-if="isLoggedIn" padding>
           <q-item-label header>{{ $t('ui.navigation.labelGeneral') }}</q-item-label>
           <q-item to="/dashboard">
             <q-item-section avatar>
@@ -141,24 +134,17 @@
             <q-item-section>{{ $t('ui.navigation.pageLogs') }}</q-item-section>
           </q-item>
           <q-separator class="q-mt-md q-mb-lg" />
-          <q-item to="/info">
+          <HelpListItemGroup />
+        </q-list>
+        <q-list v-else padding>
+          <q-item to="/login">
             <q-item-section avatar>
-              <q-icon name="info" size="sm" />
+              <q-icon name="login" size="sm" />
             </q-item-section>
-            <q-item-section>{{ $t('ui.navigation.pageAbout') }}</q-item-section>
+            <q-item-section>{{ $t('ui.navigation.pageLogin') }}</q-item-section>
           </q-item>
-          <q-item tag="a" target="_blank" :href="bugReportUrl">
-            <q-item-section avatar>
-              <q-icon name="bug_report" size="sm" />
-            </q-item-section>
-            <q-item-section>{{ $t('ui.navigation.pageBugReport') }}</q-item-section>
-          </q-item>
-          <q-item tag="a" target="_blank" :href="helpUrl">
-            <q-item-section avatar>
-              <q-icon name="help_outline" size="sm" />
-            </q-item-section>
-            <q-item-section>{{ $t('ui.navigation.pageSupport') }}</q-item-section>
-          </q-item>
+          <q-separator class="q-mt-md q-mb-lg" />
+          <HelpListItemGroup />
         </q-list>
       </q-scroll-area>
     </q-drawer>
@@ -184,13 +170,12 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useGlobalStore } from 'src/stores/global-store'
+import { useAccountStore } from 'src/stores/account-store'
 import { ref } from 'vue'
 import PlayerFace from 'src/components/PlayerFace.vue'
 import QItemSpinner from 'src/components/QItemSpinner.vue'
+import HelpListItemGroup from 'src/components/HelpListItemGroup.vue'
 import { QSelect } from 'quasar'
-
-const bugReportUrl = process.env.URL_BUG_REPORT
-const helpUrl = process.env.URL_HELP_PAGE
 
 const leftDrawerOpen = ref(false)
 const leftDrawerMini = ref(false)
@@ -204,6 +189,7 @@ function toggleRightDrawer() {
 }
 
 const { darkMode } = storeToRefs(useGlobalStore())
+const { isLoggedIn } = storeToRefs(useAccountStore())
 
 type SearchOption = {
   label: string

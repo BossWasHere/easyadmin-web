@@ -9,6 +9,7 @@ const routes: RouteRecordRaw[] = [
       { path: '/admin', component: () => import('pages/AdminSettingsPage.vue') },
       { path: '/dashboard', component: () => import('pages/DashboardPage.vue') },
       { path: '/info', component: () => import('pages/AboutPage.vue') },
+      { path: '/login', component: () => import('pages/LoginPage.vue') },
       { path: '/logs', component: () => import('pages/LogPage.vue') },
       { path: '/me', component: () => import('pages/UserSettingsPage.vue') },
       { path: '/moderation', component: () => import('pages/ModerationAnalyticsPage.vue') },
