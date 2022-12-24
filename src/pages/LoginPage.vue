@@ -11,12 +11,24 @@
       indicator-color="primary"
       class="shadow-2"
     >
+      <q-tab name="switch" icon="switch_account" :label="$t('ui.login.switchAccount')" />
       <q-tab name="ms-oauth2" icon="person" :label="$t('ui.login.msOauth2')" />
       <q-tab name="password" icon="password" :label="$t('ui.login.password')" />
-      <q-tab name="otc" icon="key" :label="$t('ui.login.onetimecode')" />
+      <q-tab name="otc" icon="key" :label="$t('ui.login.oneTimePassword')" />
       <q-tab name="open" icon="no_encryption" :label="$t('ui.login.insecure')" />
     </q-tabs>
     <q-tab-panels v-model="tab" animated swipeable infinite>
+      <q-tab-panel name="switch" class="no-scroll">
+        <div class="col q-gutter-y-md">
+          <q-select
+            :model-value="existing_accounts"
+            :label="$t('ui.login.existingAccounts')"
+            placeholder="server[:port]"
+            :rules="requiredField"
+          />
+          <q-btn :label="$t('ui.login.switchAccount')" @click="login('switch')" color="primary" />
+        </div>
+      </q-tab-panel>
       <q-tab-panel name="ms-oauth2" class="no-scroll">
         <div class="col q-gutter-y-md">
           <q-input
@@ -96,25 +108,29 @@ import { useQuasar } from 'quasar'
 import { EasyAdminAPI } from 'src/util/api-connector'
 import { EasyAdminAuth } from 'src/util/auth-engine'
 
-const tab = ref('ms-oath2')
+const tab = ref('switch')
 const { t } = useI18n()
 const q = useQuasar()
 
 const requiredField = [(val: string) => !!val || t('ui.generic.fieldRequired')]
 
+const existing_accounts = ref([])
 const username = ref('')
 const password = ref('')
 const otp = ref('')
 const server_address = ref('')
 const remember = ref(false)
 
-function login(method: 'ms-oauth2' | 'password' | 'otp' | 'open') {
-  if (server_address.value === '') {
+function login(method: 'switch' | 'ms-oauth2' | 'password' | 'otp' | 'open') {
+  if (server_address.value === '' && method !== 'switch') {
     q.notify({ message: t('ui.login.missingServerAddress'), type: 'negative' })
     return
   }
 
   switch (method) {
+    case 'switch':
+      q.notify({ message: 'Not currently available', type: 'negative' })
+      break
     case 'ms-oauth2':
       q.notify({ message: 'Not currently available', type: 'negative' })
       break
