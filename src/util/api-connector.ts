@@ -383,7 +383,7 @@ export namespace EasyAdminAPI {
         return await response.json()
       }
       return {
-        error: (await response.json()).error,
+        error: await response.text(),
         errorStatus: response.statusText,
         code: response.status,
       }
