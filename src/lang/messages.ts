@@ -11,6 +11,7 @@ export interface LocaleDict {
     }
     login: {
       switchAccount: string
+      remember: string
       msOauth2: string
       password: string
       oneTimePassword: string

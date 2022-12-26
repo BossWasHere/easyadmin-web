@@ -13,6 +13,7 @@ const messages: LocaleDict = {
     },
     login: {
       switchAccount: 'Switch Account',
+      remember: 'Remember login',
       msOauth2: 'Microsoft OAuth2',
       password: 'Password',
       oneTimePassword: 'One-Time Code',

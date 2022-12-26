@@ -37,6 +37,9 @@
             placeholder="server[:port]"
             :rules="requiredField"
           />
+          <div>
+            <q-checkbox dense size="lg" v-model="remember" :label="$t('ui.login.remember')" />
+          </div>
           <q-btn
             :label="$t('ui.login.withMicrosoft')"
             @click="login('ms-oauth2')"
@@ -63,6 +66,9 @@
             placeholder="server[:port]"
             :rules="requiredField"
           />
+          <div>
+            <q-checkbox dense size="lg" v-model="remember" :label="$t('ui.login.remember')" />
+          </div>
           <q-btn :label="$t('ui.login.withPassword')" @click="login('password')" color="primary" />
         </div>
       </q-tab-panel>
@@ -79,6 +85,9 @@
             placeholder="server[:port]"
             :rules="requiredField"
           />
+          <div>
+            <q-checkbox dense size="lg" v-model="remember" :label="$t('ui.login.remember')" />
+          </div>
           <q-btn
             :label="$t('ui.login.withOneTimePassword')"
             @click="login('otp')"
@@ -94,6 +103,9 @@
             placeholder="server[:port]"
             :rules="requiredField"
           />
+          <div>
+            <q-checkbox dense size="lg" v-model="remember" :label="$t('ui.login.remember')" />
+          </div>
           <q-btn :label="$t('ui.login.withInsecure')" @click="login('open')" color="primary" />
         </div>
       </q-tab-panel>
@@ -104,16 +116,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { EasyAdminAPI } from 'src/api/api-connector'
 import { EasyAdminAuth } from 'src/api/auth-engine'
 
-const tab = ref('switch')
+const router = useRouter()
 const { t } = useI18n()
 const q = useQuasar()
 
 const requiredField = [(val: string) => !!val || t('ui.generic.fieldRequired')]
 
+const tab = ref('switch')
 const existing_accounts = ref([])
 const username = ref('')
 const password = ref('')
@@ -121,11 +135,13 @@ const otp = ref('')
 const server_address = ref('')
 const remember = ref(false)
 
-function login(method: 'switch' | 'ms-oauth2' | 'password' | 'otp' | 'open') {
+async function login(method: 'switch' | 'ms-oauth2' | 'password' | 'otp' | 'open') {
   if (server_address.value === '' && method !== 'switch') {
     q.notify({ message: t('ui.login.missingServerAddress'), type: 'negative' })
     return
   }
+
+  let response: EasyAdminAPI.APIEngine | EasyAdminAPI.APIError | undefined
 
   switch (method) {
     case 'switch':
@@ -140,7 +156,7 @@ function login(method: 'switch' | 'ms-oauth2' | 'password' | 'otp' | 'open') {
         return
       }
 
-      EasyAdminAPI.login(
+      response = await EasyAdminAPI.login(
         server_address.value,
         new EasyAdminAuth.PasswordAuth(),
         {
@@ -157,7 +173,7 @@ function login(method: 'switch' | 'ms-oauth2' | 'password' | 'otp' | 'open') {
         return
       }
 
-      EasyAdminAPI.login(
+      response = await EasyAdminAPI.login(
         server_address.value,
         new EasyAdminAuth.OTPAuth(),
         {
@@ -168,13 +184,22 @@ function login(method: 'switch' | 'ms-oauth2' | 'password' | 'otp' | 'open') {
       )
       break
     case 'open':
-      EasyAdminAPI.login(
+      response = await EasyAdminAPI.login(
         server_address.value,
         new EasyAdminAuth.Authless(),
         undefined,
         remember.value
       )
       break
+  }
+
+  if (response) {
+    if ('error' in response) {
+      q.notify({ message: response.error, type: 'negative' })
+    } else {
+      q.notify({ message: t('ui.login.loginSuccessful'), type: 'positive' })
+      router.push('/dashboard')
+    }
   }
 }
 </script>
