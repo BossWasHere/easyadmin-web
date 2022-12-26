@@ -220,6 +220,7 @@ export namespace EasyAdminAPI {
   interface APIProvider {
     isAuthenicated(): boolean
     getAccessToken(): string | undefined
+    getAPIVersion(): APIVersion | undefined
     getIdentity(): { token?: string; clientId: string }
     handleLogin(
       authWrapper: EasyAdminAuth.AuthWrapper,
@@ -236,6 +237,10 @@ export namespace EasyAdminAPI {
     },
 
     getAccessToken() {
+      return undefined
+    },
+
+    getAPIVersion() {
       return undefined
     },
 
@@ -285,6 +290,14 @@ export namespace EasyAdminAPI {
       return this.accessToken
     }
 
+    getAPIVersion() {
+      return this.apiVersion
+    }
+
+    getAPIUrl(endpoint = '') {
+      return new URL((this.apiVersion ?? 'v1.0') + endpoint, this.baseUrl)
+    }
+
     getIdentity() {
       const { clientId } = useAccountStore()
       return {
@@ -293,15 +306,12 @@ export namespace EasyAdminAPI {
       }
     }
 
-    getAPIVersion() {
-      return this.apiVersion
-    }
-
     async handleLogin(
       authWrapper: EasyAdminAuth.AuthWrapper,
       state: EasyAdminAuth.LoginState,
       store = true
     ) {
+      await this.checkAPIAvailability()
       await authWrapper.loadState(state)
       const persistOptions = await authWrapper.beforeLogin(this)
       if (persistOptions) {
@@ -324,8 +334,31 @@ export namespace EasyAdminAPI {
       await authWrapper.afterLogin(this)
     }
 
+    async checkAPIAvailability(forceRefresh = false): Promise<APIVersion> {
+      if (this.apiVersion && !forceRefresh) {
+        return this.apiVersion
+      }
+
+      const url = new URL(this.baseUrl)
+
+      const result = await fetch(url, {
+        headers: {
+          Accept: 'application/json',
+        },
+      })
+
+      const versionData = await this.handleResponse<{ version: APIVersion }>(result)
+      if ('error' in versionData) {
+        throw versionData
+      }
+
+      this.apiVersion = versionData.version
+      return versionData.version
+    }
+
     async get<T>(path: string, requireAuthorization = true): Promise<T | APIError> {
-      const url = new URL(path, this.baseUrl).toString()
+      const url = this.getAPIUrl(path)
+
       if (!this.getAccessToken() && requireAuthorization) {
         return {
           error: 'No access token provided',
@@ -354,7 +387,8 @@ export namespace EasyAdminAPI {
     }
 
     async post<T>(path: string, body?: object, requireAuthorization = true): Promise<T | APIError> {
-      const url = new URL(path, this.baseUrl).toString()
+      const url = this.getAPIUrl(path)
+
       if (!this.getAccessToken() && requireAuthorization) {
         return {
           error: 'No access token provided',
