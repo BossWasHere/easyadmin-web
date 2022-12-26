@@ -27,6 +27,7 @@ export interface LocaleDict {
     }
     generic: {
       fieldRequired: string
+      copyToClipboard: string
     }
     search: {
       recent: string

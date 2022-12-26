@@ -29,6 +29,7 @@ const messages: LocaleDict = {
     },
     generic: {
       fieldRequired: 'Field is required',
+      copyToClipboard: 'Copy to clipboard',
     },
     search: {
       recent: 'Recent',

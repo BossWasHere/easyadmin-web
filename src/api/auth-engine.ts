@@ -28,17 +28,12 @@ export namespace EasyAdminAuth {
     method: 'password'
     username: string
     password: string
-    nonce?: NoncePair
+    nonce?: string
   }
 
   export type OTPAuthState = {
     method: 'otp'
     otp: string
-  }
-
-  export type NoncePair = {
-    id: string
-    nonce: string
   }
 
   export interface AuthWrapper {
@@ -129,29 +124,37 @@ export namespace EasyAdminAuth {
         throwError('No loaded state')
       }
 
-      const noncePair = await engine.post<NoncePair>('/identity/nonce', {
-        clientId: engine.getIdentity().clientId,
-      })
-      if ('error' in noncePair) {
-        throw noncePair
+      const nonceResult = await engine.post<{ nonce: string }>(
+        '/identity/nonce',
+        {
+          clientId: engine.getIdentity().clientId,
+        },
+        false
+      )
+      if ('error' in nonceResult) {
+        throw nonceResult
       }
-      this.state.nonce = noncePair
+      this.state.nonce = nonceResult.nonce
     }
 
     async login(engine: EasyAdminAPI.APIEngine) {
       if (!this.state) {
         throwError('No loaded state')
       }
-      const passwordHash = await hashPassword(this.state.password + this.state.nonce?.nonce)
+      const passwordHash = await hashPassword(this.state.password + this.state.nonce)
       //const passwordHash = await bcrypt.hash(this.state.password + this.state.nonce?.nonce, 16)
 
-      const loginData = await engine.post<{ token: string }>('/identity/login', {
-        method: 'password',
-        clientId: engine.getIdentity().clientId,
-        username: this.state.username,
-        password: passwordHash,
-        nonce: this.state.nonce,
-      })
+      const loginData = await engine.post<{ token: string }>(
+        '/identity/login',
+        {
+          method: 'password',
+          clientId: engine.getIdentity().clientId,
+          username: this.state.username,
+          password: passwordHash,
+          nonce: this.state.nonce,
+        },
+        false
+      )
       if ('error' in loginData) {
         throw loginData
       }
@@ -181,11 +184,15 @@ export namespace EasyAdminAuth {
     async beforeLogin() {}
 
     async login(engine: EasyAdminAPI.APIEngine) {
-      const loginData = await engine.post<{ token: string }>('/identity/login', {
-        method: 'otp',
-        clientId: engine.getIdentity().clientId,
-        otp: this.state?.otp,
-      })
+      const loginData = await engine.post<{ token: string }>(
+        '/identity/login',
+        {
+          method: 'otp',
+          clientId: engine.getIdentity().clientId,
+          otp: this.state?.otp,
+        },
+        false
+      )
       if ('error' in loginData) {
         throw loginData
       }
@@ -207,10 +214,14 @@ export namespace EasyAdminAuth {
     async beforeLogin() {}
 
     async login(engine: EasyAdminAPI.APIEngine) {
-      const loginData = await engine.post<{ token: string }>('/identity/login', {
-        method: 'open',
-        clientId: engine.getIdentity().clientId,
-      })
+      const loginData = await engine.post<{ token: string }>(
+        '/identity/login',
+        {
+          method: 'open',
+          clientId: engine.getIdentity().clientId,
+        },
+        false
+      )
       if ('error' in loginData) {
         throw loginData
       }

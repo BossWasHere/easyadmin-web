@@ -20,7 +20,7 @@
               unelevated
               @click="copyNameToClipboard"
             >
-              <q-tooltip class="bg">Copy to clipboard</q-tooltip>
+              <q-tooltip class="bg">{{ $t('ui.generic.copyToClipboard') }}</q-tooltip>
             </q-btn>
             <q-space />
             <div class="text-bold" :class="online ? 'text-green' : 'text-red'">
@@ -39,7 +39,7 @@
               unelevated
               @click="copyUUIDToClipboard"
             >
-              <q-tooltip class="bg">Copy to clipboard</q-tooltip>
+              <q-tooltip class="bg">{{ $t('ui.generic.copyToClipboard') }}</q-tooltip>
             </q-btn>
           </div>
 

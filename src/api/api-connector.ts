@@ -2,8 +2,11 @@ import { EasyAdminAuth } from './auth-engine'
 import { useAccountStore } from 'src/stores/account-store'
 import { useSessionStore } from 'src/stores/session-store'
 import { hashPassword } from '../util/crypto-util'
+import { APICache } from './api-cache'
 
 export namespace EasyAdminAPI {
+  export type APIVersion = 'v1.0'
+
   export type APIStatus = {
     uptime: number
     platform: {
@@ -136,9 +139,11 @@ export namespace EasyAdminAPI {
 
   export class APISession {
     private engine: APIProvider
+    private cache: APICache
 
     constructor(engine?: APIProvider) {
       this.engine = engine ?? UndefinedEngine
+      this.cache = new APICache()
     }
 
     setEngine(engine: APIProvider) {
@@ -194,20 +199,20 @@ export namespace EasyAdminAPI {
       currentPassword: string,
       newPassword: string
     ): Promise<PasswordChange | APIError> {
-      const noncePair = await this.engine.post<EasyAdminAuth.NoncePair>('/identity/nonce', {
+      const nonceResult = await this.engine.post<{ nonce: string }>('/identity/nonce', {
         clientId: this.engine.getIdentity().clientId,
       })
 
-      if ('error' in noncePair) {
-        return noncePair
+      if ('error' in nonceResult) {
+        return nonceResult
       }
 
-      const passwordHash = await hashPassword(currentPassword + noncePair.nonce)
+      const passwordHash = await hashPassword(currentPassword + nonceResult.nonce)
 
       return await this.engine.post<PasswordChange>('/identity/password', {
         old: passwordHash,
         new: newPassword,
-        nonce: noncePair,
+        nonce: nonceResult,
       })
     }
   }
@@ -265,12 +270,11 @@ export namespace EasyAdminAPI {
   export class APIEngine implements APIProvider {
     private accessToken?: string
     private baseUrl: string
-    private isAuthenticating: boolean
+    private apiVersion?: APIVersion
 
     constructor(baseUrl: string, accessToken?: string) {
       this.accessToken = accessToken
       this.baseUrl = baseUrl
-      this.isAuthenticating = false
     }
 
     isAuthenicated() {
@@ -289,13 +293,16 @@ export namespace EasyAdminAPI {
       }
     }
 
+    getAPIVersion() {
+      return this.apiVersion
+    }
+
     async handleLogin(
       authWrapper: EasyAdminAuth.AuthWrapper,
       state: EasyAdminAuth.LoginState,
       store = true
     ) {
       await authWrapper.loadState(state)
-      this.isAuthenticating = true
       const persistOptions = await authWrapper.beforeLogin(this)
       if (persistOptions) {
         if (persistOptions.persist) {
@@ -310,7 +317,6 @@ export namespace EasyAdminAPI {
         }
       }
       this.accessToken = await authWrapper.login(this)
-      this.isAuthenticating = false
       if (store) {
         useAccountStore().insertAccount({ serverUrl: this.baseUrl, token: this.accessToken })
       }
@@ -318,9 +324,9 @@ export namespace EasyAdminAPI {
       await authWrapper.afterLogin(this)
     }
 
-    async get<T>(path: string): Promise<T | APIError> {
+    async get<T>(path: string, requireAuthorization = true): Promise<T | APIError> {
       const url = new URL(path, this.baseUrl).toString()
-      if (!this.getAccessToken()) {
+      if (!this.getAccessToken() && requireAuthorization) {
         return {
           error: 'No access token provided',
           errorStatus: 'Unauthorized',
@@ -332,9 +338,9 @@ export namespace EasyAdminAPI {
         const result = await fetch(url, {
           headers: {
             Accept: 'application/json',
-            Authorization: `Bearer ${this.getAccessToken()}`,
+            Authorization: requireAuthorization ? undefined : `Bearer ${this.getAccessToken()}`,
             'Content-Type': 'application/json',
-          },
+          } as HeadersInit,
         })
 
         return await this.handleResponse<T>(result)
@@ -347,9 +353,9 @@ export namespace EasyAdminAPI {
       }
     }
 
-    async post<T>(path: string, body?: object): Promise<T | APIError> {
+    async post<T>(path: string, body?: object, requireAuthorization = true): Promise<T | APIError> {
       const url = new URL(path, this.baseUrl).toString()
-      if (!this.getAccessToken() && !this.isAuthenticating) {
+      if (!this.getAccessToken() && requireAuthorization) {
         return {
           error: 'No access token provided',
           errorStatus: 'Unauthorized',
@@ -362,7 +368,7 @@ export namespace EasyAdminAPI {
           method: 'POST',
           headers: {
             Accept: 'application/json',
-            Authorization: this.isAuthenticating ? undefined : `Bearer ${this.getAccessToken()}`,
+            Authorization: requireAuthorization ? undefined : `Bearer ${this.getAccessToken()}`,
             'Content-Type': 'application/json',
           } as HeadersInit,
           body: JSON.stringify(body),
