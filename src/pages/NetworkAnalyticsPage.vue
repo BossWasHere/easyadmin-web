@@ -93,6 +93,8 @@ const xAxis30m = {
   max: timestamp,
 }
 
+// todo prevent chart selection + zoom in (or enable controls)
+
 const tpsOptions = {
   chart: chartType,
   title: {
@@ -103,6 +105,9 @@ const tpsOptions = {
     },
   },
   dataLabels,
+  stroke: {
+    curve: 'stepline',
+  },
   tooltip: tooltip30m,
   theme: defaultChartTheme,
   xaxis: xAxis30m,
@@ -112,13 +117,32 @@ const tpsOptions = {
   },
 }
 
+// const tpsData = [
+//   {
+//     name: 'TPS',
+//     data: fastRandomTrend(1800 + 1, 5, 20, 1, 18, 20).map((value, index) => [
+//       timestamp - (1800 - index) * 1000,
+//       value,
+//     ]),
+//   },
+// ]
+
 const tpsData = [
   {
     name: 'TPS',
-    data: fastRandomTrend(1800 + 1, 5, 20, 1, 18, 20).map((value, index) => [
-      timestamp - (1800 - index) * 1000,
-      value,
-    ]),
+    data: [
+      [timestamp - 1800000, 20],
+      [timestamp - 1463000, 19],
+      [timestamp - 1126000, 18],
+      [timestamp - 1110000, 19],
+      [timestamp - 964000, 18],
+      [timestamp - 962000, 16],
+      [timestamp - 850000, 17],
+      [timestamp - 727000, 18],
+      [timestamp - 725000, 19],
+      [timestamp - 703000, 20],
+      [timestamp, 20],
+    ],
   },
 ]
 
