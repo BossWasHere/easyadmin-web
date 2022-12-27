@@ -40,3 +40,14 @@
     white-space: pre;
   }
 }
+
+// ApexCharts
+
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+div.apexcharts-canvas.apexcharts-theme-dark > svg {
+  background-color: transparent !important;
+}

@@ -17,6 +17,7 @@ export namespace EasyAdminAPI {
   }
 
   export type NetworkServerRoot = {
+    roots: string[]
     servers: NetworkServer[]
   }
 
@@ -25,7 +26,7 @@ export namespace EasyAdminAPI {
     id: string
     platform: string
     description: string
-    children?: NetworkServer[]
+    children?: string[]
     managableInstance: boolean
     stats: {
       name: string
