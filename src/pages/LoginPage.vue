@@ -21,11 +21,22 @@
       <q-tab-panel name="switch" class="no-scroll">
         <div class="col q-gutter-y-md">
           <q-select
-            :model-value="existing_accounts"
+            v-model="selectedAccount"
+            :options="accounts"
+            option-label="serverUrl"
             :label="$t('ui.login.existingAccountsField')"
-            placeholder="server[:port]"
-            :rules="requiredField"
-          />
+          >
+            <template v-slot:append>
+              <q-btn
+                dense
+                flat
+                icon="delete"
+                text-color="negative"
+                v-if="selectedAccount"
+                @click.stop.prevent="promptDelete"
+              />
+            </template>
+          </q-select>
           <q-btn :label="$t('ui.login.switchAccount')" @click="login('switch')" color="primary" />
         </div>
       </q-tab-panel>
@@ -114,12 +125,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 import { useQuasar } from 'quasar'
 import { EasyAdminAPI } from 'src/api/api-connector'
 import { EasyAdminAuth } from 'src/api/auth-engine'
+import { useAccountStore } from 'src/stores/account-store'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -127,16 +140,46 @@ const q = useQuasar()
 
 const requiredField = [(val: string) => !!val || t('ui.generic.fieldRequired')]
 
+const { accounts, currentAccount } = storeToRefs(useAccountStore())
+
+const selectedAccount = ref(currentAccount.value)
+
 const tab = ref('switch')
-const existing_accounts = ref([])
 const username = ref('')
 const password = ref('')
 const otp = ref('')
 const server_address = ref('')
 const remember = ref(false)
 
+onMounted(() => {
+  selectedAccount.value = currentAccount.value
+})
+
+function promptDelete() {
+  const accountToDelete = selectedAccount.value
+
+  if (!accountToDelete) {
+    return
+  }
+
+  q.dialog({
+    title: t('ui.login.deleteAccountPrompt'),
+    message: t('ui.login.deleteAccountPromptMessage', { server: accountToDelete.serverUrl }),
+    class: 'wrap-whitespace',
+    color: 'negative',
+    noEscDismiss: false,
+    cancel: true,
+  }).onOk(() => {
+    useAccountStore().removeAccount(accountToDelete)
+    q.notify({ message: t('ui.login.accountDeleted'), type: 'positive' })
+    selectedAccount.value = undefined
+  })
+}
+
 async function login(method: 'switch' | 'ms-oauth2' | 'password' | 'otp' | 'open') {
-  if (server_address.value === '' && method !== 'switch') {
+  const serverAddress = server_address.value
+
+  if (serverAddress === '' && method !== 'switch') {
     q.notify({ message: t('ui.login.missingServerAddress'), type: 'negative' })
     return
   }
@@ -145,8 +188,23 @@ async function login(method: 'switch' | 'ms-oauth2' | 'password' | 'otp' | 'open
 
   switch (method) {
     case 'switch':
-      q.notify({ message: 'Not currently available', type: 'negative' })
-      break
+      if (!selectedAccount.value) {
+        q.notify({ message: t('ui.login.missingAccountSelection'), type: 'negative' })
+        return
+      }
+
+      if (selectedAccount.value !== currentAccount.value) {
+        useAccountStore().switchAccount(selectedAccount.value)
+
+        // TODO verify successful connection
+      }
+
+      q.notify({
+        message: t('ui.login.loginSuccessful', { server: selectedAccount.value.serverUrl }),
+        type: 'positive',
+      })
+      router.push('/dashboard')
+      return
     case 'ms-oauth2':
       q.notify({ message: 'Not currently available', type: 'negative' })
       break
@@ -157,7 +215,7 @@ async function login(method: 'switch' | 'ms-oauth2' | 'password' | 'otp' | 'open
       }
 
       response = await EasyAdminAPI.login(
-        server_address.value,
+        serverAddress,
         new EasyAdminAuth.PasswordAuth(),
         {
           method: 'password',
@@ -174,7 +232,7 @@ async function login(method: 'switch' | 'ms-oauth2' | 'password' | 'otp' | 'open
       }
 
       response = await EasyAdminAPI.login(
-        server_address.value,
+        serverAddress,
         new EasyAdminAuth.OTPAuth(),
         {
           method: 'otp',
@@ -185,7 +243,7 @@ async function login(method: 'switch' | 'ms-oauth2' | 'password' | 'otp' | 'open
       break
     case 'open':
       response = await EasyAdminAPI.login(
-        server_address.value,
+        serverAddress,
         new EasyAdminAuth.Authless(),
         undefined,
         remember.value
@@ -197,7 +255,10 @@ async function login(method: 'switch' | 'ms-oauth2' | 'password' | 'otp' | 'open
     if ('error' in response) {
       q.notify({ message: response.error, type: 'negative' })
     } else {
-      q.notify({ message: t('ui.login.loginSuccessful'), type: 'positive' })
+      q.notify({
+        message: t('ui.login.loginSuccessful', { server: serverAddress }),
+        type: 'positive',
+      })
       router.push('/dashboard')
     }
   }

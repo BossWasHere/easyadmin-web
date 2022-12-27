@@ -34,3 +34,9 @@
     @extend .border-primary;
   }
 }
+
+.wrap-whitespace {
+  > .q-dialog__message {
+    white-space: pre;
+  }
+}

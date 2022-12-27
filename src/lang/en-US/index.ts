@@ -27,6 +27,15 @@ const messages: LocaleDict = {
       withPassword: 'Connect with Password',
       withOneTimePassword: 'Connect with OTC',
       withInsecure: 'Connect',
+      missingAccountSelection: 'Please select an account',
+      missingServerAddress: 'Please enter a server address',
+      missingUsernameOrPassword: 'Please enter a username and password',
+      missingOTP: 'Please enter a one-time code',
+      loginSuccessful: 'Successfully connected to {server}',
+      deleteAccountPrompt: 'Delete Account',
+      deleteAccountPromptMessage:
+        'Are you sure you want to delete this account?\nAddress: {server}',
+      accountDeleted: 'Account deleted successfully!',
     },
     generic: {
       fieldRequired: 'Field is required',

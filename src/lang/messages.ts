@@ -25,6 +25,14 @@ export interface LocaleDict {
       withPassword: string
       withOneTimePassword: string
       withInsecure: string
+      missingAccountSelection: string
+      missingServerAddress: string
+      missingUsernameOrPassword: string
+      missingOTP: string
+      loginSuccessful: string
+      deleteAccountPrompt: string
+      deleteAccountPromptMessage: string
+      accountDeleted: string
     }
     generic: {
       fieldRequired: string

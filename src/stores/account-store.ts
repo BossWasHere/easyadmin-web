@@ -25,10 +25,24 @@ export const useAccountStore = defineStore('account', {
       this.accounts.push(account)
       this.accountIndex = this.accounts.length - 1
     },
-    switchAccount(index: number) {
+    switchAccount(index: number | EasyAdminAuth.Account) {
+      if (typeof index === 'object') {
+        index = this.accounts.indexOf(index)
+      }
+
       if (index >= 0 && index < this.accounts.length) {
         this.accountIndex = index
         useSessionStore().reloadEngine()
+      }
+    },
+    removeAccount(index: number | EasyAdminAuth.Account) {
+      if (typeof index === 'object') {
+        index = this.accounts.indexOf(index)
+      }
+
+      if (index >= 0 && index < this.accounts.length) {
+        this.accounts.splice(index, 1)
+        this.accountIndex = -1
       }
     },
     updatePendingLogin(pending: EasyAdminAuth.LoginState) {
