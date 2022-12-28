@@ -117,16 +117,6 @@ const tpsOptions = {
   },
 }
 
-// const tpsData = [
-//   {
-//     name: 'TPS',
-//     data: fastRandomTrend(1800 + 1, 5, 20, 1, 18, 20).map((value, index) => [
-//       timestamp - (1800 - index) * 1000,
-//       value,
-//     ]),
-//   },
-// ]
-
 const tpsData = [
   {
     name: 'TPS',
