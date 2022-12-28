@@ -41,8 +41,6 @@
 </template>
 
 <script setup lang="ts">
-import { QPage } from 'quasar'
-
 const timestamp = Date.now()
 
 const defaultChartOptions = {
