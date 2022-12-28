@@ -45,15 +45,29 @@ import { QPage } from 'quasar'
 
 const timestamp = Date.now()
 
-const chartType = {
-  type: 'area',
-  toolbar: {
-    show: false,
+const defaultChartOptions = {
+  chart: {
+    type: 'area',
+    toolbar: {
+      show: true,
+      tools: {
+        download: false,
+        selection: true,
+        zoom: '<i class="material-icons text-primary apexcharts-material-icon">zoom_in</i>',
+        zoomin: false,
+        zoomout: false,
+        pan: false,
+        reset: '<i class="material-icons text-primary apexcharts-material-icon">restart_alt</i>',
+      },
+    },
   },
-}
-
-const dataLabels = {
-  enabled: false,
+  colors: ['#1976d2', '#26a69a', '#f2c037'],
+  dataLabels: {
+    enabled: false,
+  },
+  theme: {
+    mode: 'dark',
+  },
 }
 
 // const tooltip30s = {
@@ -76,11 +90,6 @@ const tooltip30m = {
   },
 }
 
-const defaultChartTheme = {
-  mode: 'dark',
-  palette: 'palette1',
-}
-
 // const xAxis30s = {
 //   type: 'datetime',
 //   min: timestamp - 30000,
@@ -96,7 +105,7 @@ const xAxis30m = {
 // todo prevent chart selection + zoom in (or enable controls)
 
 const tpsOptions = {
-  chart: chartType,
+  ...defaultChartOptions,
   title: {
     text: 'TPS',
     align: 'left',
@@ -104,12 +113,10 @@ const tpsOptions = {
       fontFamily: 'inherit',
     },
   },
-  dataLabels,
   stroke: {
     curve: 'stepline',
   },
   tooltip: tooltip30m,
-  theme: defaultChartTheme,
   xaxis: xAxis30m,
   yaxis: {
     min: 0,
@@ -137,7 +144,7 @@ const tpsData = [
 ]
 
 const onlinePlayerOptions = {
-  chart: chartType,
+  ...defaultChartOptions,
   title: {
     text: 'Online Players',
     align: 'left',
@@ -145,9 +152,7 @@ const onlinePlayerOptions = {
       fontFamily: 'inherit',
     },
   },
-  dataLabels,
   tooltip: tooltip30m,
-  theme: defaultChartTheme,
   xaxis: xAxis30m,
   yaxis: {
     min: 0,
@@ -166,7 +171,7 @@ const onlinePlayersData = [
 ]
 
 const chatActivityOptions = {
-  chart: chartType,
+  ...defaultChartOptions,
   title: {
     text: 'Chat Activity',
     align: 'left',
@@ -174,9 +179,7 @@ const chatActivityOptions = {
       fontFamily: 'inherit',
     },
   },
-  dataLabels,
   tooltip: tooltip30m,
-  theme: defaultChartTheme,
   xaxis: xAxis30m,
   yaxis: {
     min: 0,
@@ -195,8 +198,9 @@ const chatActivityData = [
 ]
 
 const cpuOptions = {
+  ...defaultChartOptions,
   chart: {
-    ...chartType,
+    ...defaultChartOptions.chart,
     stacked: true,
   },
   title: {
@@ -206,9 +210,7 @@ const cpuOptions = {
       fontFamily: 'inherit',
     },
   },
-  dataLabels,
   tooltip: tooltip30m,
-  theme: defaultChartTheme,
   xaxis: xAxis30m,
   yaxis: {
     min: 0,
@@ -239,7 +241,7 @@ const cpuData = [
 ]
 
 const memoryOptions = {
-  chart: chartType,
+  ...defaultChartOptions,
   title: {
     text: 'Memory Usage',
     align: 'left',
@@ -247,14 +249,12 @@ const memoryOptions = {
       fontFamily: 'inherit',
     },
   },
-  dataLabels,
   tooltip: {
     ...tooltip30m,
     y: {
       formatter: (value: number) => `${value} MB`,
     },
   },
-  theme: defaultChartTheme,
   xaxis: xAxis30m,
   yaxis: {
     min: 0,
@@ -288,7 +288,7 @@ const memoryData = [
 ]
 
 const networkThroughputOptions = {
-  chart: { ...chartType, stacked: true },
+  ...defaultChartOptions,
   title: {
     text: 'Network Throughput',
     align: 'left',
@@ -296,14 +296,12 @@ const networkThroughputOptions = {
       fontFamily: 'inherit',
     },
   },
-  dataLabels,
   tooltip: {
     ...tooltip30m,
     y: {
       formatter: (value: number) => `${value} kb/s`,
     },
   },
-  theme: defaultChartTheme,
   xaxis: xAxis30m,
   yaxis: {
     min: 0,
