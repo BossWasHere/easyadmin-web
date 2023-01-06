@@ -4,7 +4,7 @@
     <span class="text-h6">
       A remote server moderation platform developed by BossWasHere/BackwardsNode
     </span>
-    <p class="text-bold">Version 1.0</p>
+    <p class="text-bold">Version {{ version }}</p>
     <span>Components:</span>
     <ul>
       <li>Vue 3 - MIT License <a href="https://vuejs.org/">[Website]</a></li>
@@ -34,5 +34,6 @@
 </template>
 
 <script setup lang="ts">
+const version = process.env.APP_VERSION
 const repoUrl = process.env.URL_REPO
 </script>
