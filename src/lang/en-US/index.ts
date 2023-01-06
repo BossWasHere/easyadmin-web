@@ -51,6 +51,7 @@ const messages: LocaleDict = {
     },
     navigation: {
       pageDashboard: 'My Dashboard',
+      pageTeamDashboard: 'Team Dashboard',
       pageModerationAnalytics: 'Moderation Analytics',
       pageNetworkAnalytics: 'Network Analytics',
       pageUserSettings: 'User Settings',

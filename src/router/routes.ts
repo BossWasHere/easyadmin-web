@@ -16,6 +16,7 @@ const routes: RouteRecordRaw[] = [
       { path: '/network', component: () => import('pages/NetworkAnalyticsPage.vue') },
       { path: '/player/:id', component: () => import('pages/PlayerViewPage.vue') },
       { path: '/sessions', component: () => import('pages/ActiveSessionsPage.vue') },
+      { path: '/team', component: () => import('pages/TeamDashboardPage.vue') },
     ],
   },
 

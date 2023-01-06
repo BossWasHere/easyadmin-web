@@ -86,6 +86,12 @@
             </q-item-section>
             <q-item-section>{{ $t('ui.navigation.pageDashboard') }}</q-item-section>
           </q-item>
+          <q-item to="/team">
+            <q-item-section avatar>
+              <q-icon name="workspaces" size="sm" />
+            </q-item-section>
+            <q-item-section>{{ $t('ui.navigation.pageTeamDashboard') }}</q-item-section>
+          </q-item>
           <q-item to="/moderation">
             <q-item-section avatar>
               <q-icon name="supervisor_account" size="sm" />

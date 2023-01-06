@@ -48,6 +48,7 @@ export interface LocaleDict {
     }
     navigation: {
       pageDashboard: string
+      pageTeamDashboard: string
       pageModerationAnalytics: string
       pageNetworkAnalytics: string
       pageUserSettings: string
