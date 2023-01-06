@@ -1,5 +1,13 @@
 // app global css in SCSS form
 
+.body--light .display-dark-only {
+  display: none;
+}
+
+.body--dark .display-light-only {
+  display: none;
+}
+
 .border-all {
   border: 2px solid;
 }
