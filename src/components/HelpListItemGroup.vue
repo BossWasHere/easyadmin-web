@@ -1,5 +1,5 @@
 <template>
-  <q-item to="/info">
+  <q-item to="/about">
     <q-item-section avatar>
       <q-icon name="info" size="sm" />
     </q-item-section>
